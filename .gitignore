@@ -11,3 +11,8 @@ PublishProfiles/
 **.log.txt
 **.log
 .azure
+
+# Build artifacts
+*.json
+!main.parameters.json
+!abbreviations.json

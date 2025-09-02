@@ -3,6 +3,23 @@ param applicationInsightsName string
 param location string = resourceGroup().location
 param tags object = {}
 
+// Compliance parameters - Key Vault for dashboard configuration secrets
+param enableKeyVaultCompliance bool = false
+param keyVaultName string = 'kv-dash-${take(replace(name, '-', ''), 15)}'
+
+// Optional Key Vault for compliance (disabled by default to maintain architecture)
+resource complianceKeyVault 'Microsoft.KeyVault/vaults@2022-07-01' = if (enableKeyVaultCompliance) {
+  name: keyVaultName
+  location: location
+  tags: tags
+  properties: {
+    tenantId: subscription().tenantId
+    sku: { family: 'A', name: 'standard' }
+    enabledForTemplateDeployment: true
+    accessPolicies: []
+  }
+}
+
 // 2020-09-01-preview because that is the latest valid version
 resource applicationInsightsDashboard 'Microsoft.Portal/dashboards@2020-09-01-preview' = {
   name: name

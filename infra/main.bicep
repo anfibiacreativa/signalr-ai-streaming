@@ -100,6 +100,17 @@ module registry './shared/registry.bicep' = {
   scope: rg
 }
 
+module keyVault './shared/keyvault.bicep' = {
+  name: 'keyVault'
+  params: {
+    location: location
+    tags: tags
+    name: '${abbrs.keyVaultVaults}${resourceToken}'
+    principalId: principalId
+  }
+  scope: rg
+}
+
 module appsEnv './shared/apps-env.bicep' = {
   name: 'apps-env'
   params: {
@@ -164,3 +175,7 @@ module aIStreaming './app/AIStreaming.bicep' = {
 
 output AZURE_CONTAINER_REGISTRY_ENDPOINT string = registry.outputs.loginServer
 output SERVICE_AISTREAMING_IDENTITY_PRINCIPAL_ID string = aIStreaming.outputs.identityPrincipalId
+output AZURE_KEY_VAULT_ENDPOINT string = keyVault.outputs.endpoint
+output AZURE_KEY_VAULT_NAME string = keyVault.outputs.name
+output AZURE_OPENAI_ENDPOINT string = openAi.outputs.endpoint
+output AZURE_SIGNALR_ENDPOINT string = signalr.outputs.endpoint

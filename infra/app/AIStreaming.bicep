@@ -11,6 +11,11 @@ param signalrEndpoint string
 param exists bool
 param applicationName string
 param msDefenderForCloudEnabled string
+
+// Compliance parameters - Key Vault for secrets
+param enableKeyVaultCompliance bool = false
+param keyVaultName string = 'kv-app-${take(replace(name, '-', ''), 15)}'
+
 @secure()
 param appDefinition object
 
@@ -24,6 +29,19 @@ var env = map(filter(appSettingsArray, i => i.?secret == null), i => {
   name: i.name
   value: i.value
 })
+
+// Optional Key Vault for compliance (disabled by default to maintain architecture)
+resource complianceKeyVault 'Microsoft.KeyVault/vaults@2022-07-01' = if (enableKeyVaultCompliance) {
+  name: keyVaultName
+  location: location
+  tags: tags
+  properties: {
+    tenantId: subscription().tenantId
+    sku: { family: 'A', name: 'standard' }
+    enabledForTemplateDeployment: true
+    accessPolicies: []
+  }
+}
 
 resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
   name: identityName

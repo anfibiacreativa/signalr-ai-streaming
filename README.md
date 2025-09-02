@@ -28,6 +28,12 @@ This project provides the following features:
 * Stream to all users in a group chat using Azure SignalR service
 * Generate context-aware responses using Azure OpenAI
 
+## Architecture
+
+![Data flow of the AI-enabled group chat app](./sequence-diagram-ai-powered-group-chat.png)
+
+This application uses Azure SignalR Service for real-time communication, Azure OpenAI for AI-powered responses, and Azure Container Apps for hosting. The architecture ensures scalable, secure, and efficient real-time group chat functionality with AI assistance.
+
 ### Data flow
 
 ![Data flow of the AI-enabled group chat app](./sequence-diagram-ai-powered-group-chat.png)
@@ -58,6 +64,17 @@ A related option is VS Code Dev Containers, which will open the project in your 
 1. Continue with the [Deploying steps](#deploying)
 
 ### Local Environment
+
+## Prerequisites
+
+* [.Net 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+* Install [azd](https://aka.ms/install-azd)
+  * Windows: `winget install microsoft.azd`
+  * Linux: `curl -fsSL https://aka.ms/install-azd.sh | bash`
+  * MacOS: `brew tap azure/azd && brew install azd`
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+* This template uses "gpt-4o" which may not be available in all Azure regions. Check for [up-to-date region availability](https://learn.microsoft.com/azure/ai-services/openai/concepts/models#standard-deployment-model-availability) and select a region during deployment accordingly
+  * We recommend using [East US]
 
 #### Prerequisites
 

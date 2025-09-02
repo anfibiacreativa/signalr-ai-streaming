@@ -175,3 +175,7 @@ module aIStreaming './app/AIStreaming.bicep' = {
 
 output AZURE_CONTAINER_REGISTRY_ENDPOINT string = registry.outputs.loginServer
 output SERVICE_AISTREAMING_IDENTITY_PRINCIPAL_ID string = aIStreaming.outputs.identityPrincipalId
+output AZURE_KEY_VAULT_ENDPOINT string = keyVault.outputs.endpoint
+output AZURE_KEY_VAULT_NAME string = keyVault.outputs.name
+output AZURE_OPENAI_ENDPOINT string = openAi.outputs.endpoint
+output AZURE_SIGNALR_ENDPOINT string = signalr.outputs.endpoint

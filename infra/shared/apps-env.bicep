@@ -5,6 +5,23 @@ param tags object = {}
 param logAnalyticsWorkspaceName string
 param applicationInsightsName string = ''
 
+// Compliance parameters - Key Vault for secrets  
+param enableKeyVaultCompliance bool = false
+param keyVaultName string = 'kv-apps-${take(replace(name, '-', ''), 15)}'
+
+// Optional Key Vault for compliance (disabled by default to maintain architecture)
+resource complianceKeyVault 'Microsoft.KeyVault/vaults@2022-07-01' = if (enableKeyVaultCompliance) {
+  name: keyVaultName
+  location: location
+  tags: tags
+  properties: {
+    tenantId: subscription().tenantId
+    sku: { family: 'A', name: 'standard' }
+    enabledForTemplateDeployment: true
+    accessPolicies: []
+  }
+}
+
 resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2022-10-01' = {
   name: name
   location: location

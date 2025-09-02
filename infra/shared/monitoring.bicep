@@ -3,10 +3,23 @@ param applicationInsightsName string
 param location string = resourceGroup().location
 param tags object = {}
 
+// Managed Identity for Log Analytics
+resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
+  name: '${logAnalyticsName}-identity'
+  location: location
+  tags: tags
+}
+
 resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2021-12-01-preview' = {
   name: logAnalyticsName
   location: location
   tags: tags
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${managedIdentity.id}': {}
+    }
+  }
   properties: any({
     retentionInDays: 30
     features: {

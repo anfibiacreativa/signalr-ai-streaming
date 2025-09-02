@@ -100,6 +100,17 @@ module registry './shared/registry.bicep' = {
   scope: rg
 }
 
+module keyVault './shared/keyvault.bicep' = {
+  name: 'keyVault'
+  params: {
+    location: location
+    tags: tags
+    name: '${abbrs.keyVaultVaults}${resourceToken}'
+    principalId: principalId
+  }
+  scope: rg
+}
+
 module appsEnv './shared/apps-env.bicep' = {
   name: 'apps-env'
   params: {

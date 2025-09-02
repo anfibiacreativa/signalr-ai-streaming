@@ -37,12 +37,6 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
   name: name
   location: location
   tags: tags
-  identity: {
-    type: 'UserAssigned'
-    userAssignedIdentities: {
-      '${managedIdentity.id}': {}
-    }
-  }
   properties: {
     tenantId: subscription().tenantId
     sku: { family: 'A', name: 'standard' }

@@ -14,12 +14,6 @@ resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2021-12-01-previ
   name: logAnalyticsName
   location: location
   tags: tags
-  identity: {
-    type: 'UserAssigned'
-    userAssignedIdentities: {
-      '${managedIdentity.id}': {}
-    }
-  }
   properties: any({
     retentionInDays: 30
     features: {
